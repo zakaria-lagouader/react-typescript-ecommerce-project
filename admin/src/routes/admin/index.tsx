@@ -5,7 +5,7 @@ export const Route = createFileRoute("/admin/")({
 	component: Page,
 });
 
-const breadcrumb = [{ title: "Products", url: "/products" }, { title: "Products List" }];
+const breadcrumb = [{ title: "Dashobard" }];
 
 function Page() {
 	return (
