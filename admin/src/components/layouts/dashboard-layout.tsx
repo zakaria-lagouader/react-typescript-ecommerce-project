@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import {
 	Breadcrumb,
@@ -9,12 +10,17 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Link } from "@tanstack/react-router";
 
 interface DashboardLayoutProps {
 	children?: React.ReactNode;
+	breadcrumb: {
+		title: string;
+		url?: string;
+	}[];
 }
 
-export function DashboardLayout({ children }: DashboardLayoutProps) {
+export function DashboardLayout({ children, breadcrumb }: DashboardLayoutProps) {
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -25,15 +31,32 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>
 							<BreadcrumbList>
-								<BreadcrumbItem className="hidden md:block">
-									<BreadcrumbLink href="#">
-										Building Your Application
-									</BreadcrumbLink>
-								</BreadcrumbItem>
-								<BreadcrumbSeparator className="hidden md:block" />
-								<BreadcrumbItem>
-									<BreadcrumbPage>Data Fetching</BreadcrumbPage>
-								</BreadcrumbItem>
+								{breadcrumb.map((item, idx) => (
+									<Fragment key={item.title}>
+										<BreadcrumbItem
+											className={
+												item.url !== undefined &&
+												"hidden md:block"
+											}
+										>
+											{item.url === undefined ? (
+												<BreadcrumbPage>
+													{item.title}
+												</BreadcrumbPage>
+											) : (
+												<BreadcrumbLink asChild>
+													<Link to={item.url}>
+														{item.title}
+													</Link>
+												</BreadcrumbLink>
+											)}
+										</BreadcrumbItem>
+										{breadcrumb.length !== idx + 1 && (
+											<BreadcrumbSeparator className="hidden md:block" />
+										)}
+									</Fragment>
+								))}
+								<BreadcrumbItem></BreadcrumbItem>
 							</BreadcrumbList>
 						</Breadcrumb>
 					</div>
