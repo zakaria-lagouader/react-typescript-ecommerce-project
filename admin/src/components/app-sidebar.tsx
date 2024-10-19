@@ -8,12 +8,10 @@ import {
 	GalleryVerticalEnd,
 	Map,
 	PieChart,
-	Settings2,
 	SquareTerminal,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
+import { NavGroup } from "@/components/nav-group";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -48,7 +46,7 @@ const data = {
 			plan: "Free",
 		},
 	],
-	navMain: [
+	shop: [
 		{
 			title: "Products",
 			url: "#",
@@ -79,43 +77,25 @@ const data = {
 			url: "#",
 			icon: BookOpen,
 		},
-		{
-			title: "Settings",
-			url: "#",
-			icon: Settings2,
-			items: [
-				{
-					title: "General",
-					url: "#",
-				},
-				{
-					title: "Team",
-					url: "#",
-				},
-				{
-					title: "Billing",
-					url: "#",
-				},
-				{
-					title: "Limits",
-					url: "#",
-				},
-			],
-		},
 	],
-	projects: [
+	blog: [
 		{
-			name: "Design Engineering",
+			title: "Blog",
 			url: "#",
 			icon: Frame,
 		},
 		{
-			name: "Sales & Marketing",
+			title: "Categories",
 			url: "#",
 			icon: PieChart,
 		},
 		{
-			name: "Travel",
+			title: "Authors",
+			url: "#",
+			icon: Map,
+		},
+		{
+			title: "Links",
 			url: "#",
 			icon: Map,
 		},
@@ -129,8 +109,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
+				<NavGroup items={data.shop} label="Shop" />
+				<NavGroup items={data.blog} label="Blog" />
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser user={data.user} />

@@ -4,7 +4,7 @@ interface AuthLayoutProps {
 	children?: React.ReactNode;
 }
 
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export function AuthLayout({ children }: AuthLayoutProps) {
 	return (
 		<div className="w-full h-screen lg:grid lg:grid-cols-2">
 			<div className="h-full flex items-center justify-center py-12">{children}</div>
