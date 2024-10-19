@@ -11,6 +11,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Link } from "@tanstack/react-router";
+import { ModeToggle } from "@/components/mode-toggle";
 
 interface DashboardLayoutProps {
 	children?: React.ReactNode;
@@ -26,7 +27,7 @@ export function DashboardLayout({ children, breadcrumb }: DashboardLayoutProps) 
 			<AppSidebar />
 			<SidebarInset>
 				<header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-					<div className="flex items-center gap-2 px-4">
+					<div className="flex items-center gap-2 px-4 w-full">
 						<SidebarTrigger className="-ml-1" />
 						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>
@@ -35,8 +36,9 @@ export function DashboardLayout({ children, breadcrumb }: DashboardLayoutProps) 
 									<Fragment key={item.title}>
 										<BreadcrumbItem
 											className={
-												item.url !== undefined &&
-												"hidden md:block"
+												item.url !== undefined
+													? "hidden md:block"
+													: ""
 											}
 										>
 											{item.url === undefined ? (
@@ -59,6 +61,7 @@ export function DashboardLayout({ children, breadcrumb }: DashboardLayoutProps) 
 								<BreadcrumbItem></BreadcrumbItem>
 							</BreadcrumbList>
 						</Breadcrumb>
+						<ModeToggle />
 					</div>
 				</header>
 				{children}

@@ -1,14 +1,16 @@
 import * as React from "react";
 import {
 	AudioWaveform,
-	BookOpen,
-	Bot,
 	Command,
-	Frame,
+	Files,
 	GalleryVerticalEnd,
-	Map,
-	PieChart,
-	SquareTerminal,
+	House,
+	LayoutGrid,
+	Link as LinkIcon,
+	Package,
+	ShoppingCart,
+	UserPen,
+	Users,
 } from "lucide-react";
 
 import { NavGroup } from "@/components/nav-group";
@@ -48,9 +50,14 @@ const data = {
 	],
 	shop: [
 		{
+			title: "Dashboard",
+			url: "#",
+			icon: House,
+		},
+		{
 			title: "Products",
 			url: "#",
-			icon: SquareTerminal,
+			icon: Package,
 			isActive: true,
 			items: [
 				{
@@ -70,34 +77,34 @@ const data = {
 		{
 			title: "Orders",
 			url: "#",
-			icon: Bot,
+			icon: ShoppingCart,
 		},
 		{
 			title: "Customers",
 			url: "#",
-			icon: BookOpen,
+			icon: Users,
 		},
 	],
 	blog: [
 		{
 			title: "Blog",
 			url: "#",
-			icon: Frame,
+			icon: Files,
 		},
 		{
 			title: "Categories",
 			url: "#",
-			icon: PieChart,
+			icon: LayoutGrid,
 		},
 		{
 			title: "Authors",
 			url: "#",
-			icon: Map,
+			icon: UserPen,
 		},
 		{
 			title: "Links",
 			url: "#",
-			icon: Map,
+			icon: LinkIcon,
 		},
 	],
 };
