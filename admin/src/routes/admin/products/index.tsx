@@ -1,8 +1,10 @@
 import { DashboardLayout } from "@/components/dashboard-layout";
-import PageTitle from "@/components/page-title";
-import StatsCard from "@/components/stats-card";
+import { PageTitle } from "@/components/page-title";
+import { StatsCard } from "@/components/stats-card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { columns } from "@/features/products/components/columns";
+import { ProductsTable } from "@/features/products/components/products-table";
+import { getProducts } from "@/features/products/services";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { DollarSign, Plus, Store, Package } from "lucide-react";
 
@@ -13,6 +15,8 @@ export const Route = createFileRoute("/admin/products/")({
 const breadcrumb = [{ title: "Products", url: "/products" }, { title: "Products List" }];
 
 function Page() {
+	const products = getProducts();
+
 	return (
 		<DashboardLayout breadcrumb={breadcrumb}>
 			<main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -33,11 +37,7 @@ function Page() {
 					<StatsCard title="Average price" value="$248" icon={DollarSign} />
 				</div>
 
-				<div>
-					<Card>
-						<CardContent></CardContent>
-					</Card>
-				</div>
+				<ProductsTable columns={columns} data={products} />
 			</main>
 		</DashboardLayout>
 	);

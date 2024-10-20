@@ -5,7 +5,7 @@ interface PageTitleProps {
 	action?: React.ReactNode;
 }
 
-export default function PageTitle({ title, action }: PageTitleProps) {
+export function PageTitle({ title, action }: PageTitleProps) {
 	return (
 		<div className="flex items-center justify-between">
 			<h2 className="text-3xl font-bold tracking-tight">{title}</h2>
