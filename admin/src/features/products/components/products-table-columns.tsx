@@ -1,39 +1,19 @@
 import { Product } from "@/features/products/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { CircleCheck, MoreHorizontal, XCircle, ArrowUpDown } from "lucide-react";
+import { CircleCheck, Delete, MoreHorizontal, Pencil, XCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { getSelectColumn } from "@/components/data-table/data-table-select-columns";
 
 export const columns: ColumnDef<Product>[] = [
-	{
-		id: "select",
-		header: ({ table }) => (
-			<Checkbox
-				checked={
-					table.getIsAllPageRowsSelected() ||
-					(table.getIsSomePageRowsSelected() && "indeterminate")
-				}
-				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-				aria-label="Select all"
-			/>
-		),
-		cell: ({ row }) => (
-			<Checkbox
-				checked={row.getIsSelected()}
-				onCheckedChange={(value) => row.toggleSelected(!!value)}
-				aria-label="Select row"
-			/>
-		),
-		enableSorting: false,
-		enableHiding: false,
-	},
+	getSelectColumn<Product>(),
 	{
 		accessorKey: "image",
 		header: "Image",
@@ -45,21 +25,11 @@ export const columns: ColumnDef<Product>[] = [
 	},
 	{
 		accessorKey: "name",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Name
-					<ArrowUpDown className="ml-2 h-4 w-4" />
-				</Button>
-			);
-		},
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
 	},
 	{
 		accessorKey: "brand",
-		header: "Brand",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Brand" />,
 	},
 	{
 		accessorKey: "visibility",
@@ -75,7 +45,7 @@ export const columns: ColumnDef<Product>[] = [
 	},
 	{
 		accessorKey: "price",
-		header: () => <div className="text-right">Price</div>,
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Price" />,
 		cell: ({ row }) => {
 			const amount = parseFloat(row.getValue("price"));
 			const formatted = new Intl.NumberFormat("en-US", {
@@ -83,7 +53,7 @@ export const columns: ColumnDef<Product>[] = [
 				currency: "USD",
 			}).format(amount);
 
-			return <div className="text-right font-medium">{formatted}</div>;
+			return <div className="font-medium">{formatted}</div>;
 		},
 	},
 	{
@@ -92,7 +62,7 @@ export const columns: ColumnDef<Product>[] = [
 	},
 	{
 		accessorKey: "quantity",
-		header: "Quantity",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Quantity" />,
 	},
 	{
 		id: "actions",
@@ -108,13 +78,14 @@ export const columns: ColumnDef<Product>[] = [
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
-						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(product.name)}
-						>
-							Copy payment ID
+						<DropdownMenuItem>
+							<Pencil className="h-4 w-4" />
+							Edit
 						</DropdownMenuItem>
-						<DropdownMenuItem>Edit</DropdownMenuItem>
-						<DropdownMenuItem>Delete</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Delete className="h-4 w-4" />
+							Delete
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);

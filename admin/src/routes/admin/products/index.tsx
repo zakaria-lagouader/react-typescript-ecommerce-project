@@ -2,7 +2,6 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { PageTitle } from "@/components/page-title";
 import { StatsCard } from "@/components/stats-card";
 import { Button } from "@/components/ui/button";
-import { columns } from "@/features/products/components/columns";
 import { ProductsTable } from "@/features/products/components/products-table";
 import { getProducts } from "@/features/products/services";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -37,7 +36,7 @@ function Page() {
 					<StatsCard title="Average price" value="$248" icon={DollarSign} />
 				</div>
 
-				<ProductsTable columns={columns} data={products} />
+				<ProductsTable products={products} />
 			</main>
 		</DashboardLayout>
 	);
