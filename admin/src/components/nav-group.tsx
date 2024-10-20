@@ -43,12 +43,7 @@ export function NavGroup({
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					) : (
-						<Collapsible
-							key={item.title}
-							asChild
-							defaultOpen={item.isActive}
-							className="group/collapsible"
-						>
+						<Collapsible key={item.title} asChild className="group/collapsible">
 							<SidebarMenuItem>
 								<CollapsibleTrigger asChild>
 									<SidebarMenuButton tooltip={item.title}>
