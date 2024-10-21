@@ -12,12 +12,13 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Link } from "@tanstack/react-router";
 import { ModeToggle } from "@/components/mode-toggle";
+import { ValidRoutes } from "@/lib/types";
 
-interface DashboardLayoutProps {
+export interface DashboardLayoutProps {
 	children?: React.ReactNode;
 	breadcrumb: {
 		title: string;
-		url?: string;
+		url?: ValidRoutes;
 	}[];
 }
 

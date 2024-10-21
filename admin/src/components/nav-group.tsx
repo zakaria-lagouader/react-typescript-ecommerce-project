@@ -12,14 +12,12 @@ import {
 	SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Link } from "@tanstack/react-router";
+import { ValidRoutes } from "@/lib/types";
 
-export function NavGroup({
-	items,
-	label,
-}: {
+export interface NavGroupProps {
 	items: {
 		title: string;
-		url: string;
+		url: ValidRoutes;
 		icon?: LucideIcon;
 		items?: {
 			title: string;
@@ -27,7 +25,9 @@ export function NavGroup({
 		}[];
 	}[];
 	label: string;
-}) {
+}
+
+export function NavGroup({ items, label }: NavGroupProps) {
 	return (
 		<SidebarGroup>
 			<SidebarGroupLabel>{label}</SidebarGroupLabel>

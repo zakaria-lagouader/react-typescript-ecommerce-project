@@ -13,7 +13,7 @@ import {
 	Users,
 } from "lucide-react";
 
-import { NavGroup } from "@/components/nav-group";
+import { NavGroup, NavGroupProps } from "@/components/nav-group";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -24,7 +24,6 @@ import {
 	SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
 	user: {
 		name: "shadcn",
@@ -48,65 +47,66 @@ const data = {
 			plan: "Free",
 		},
 	],
-	shop: [
-		{
-			title: "Dashboard",
-			url: "#",
-			icon: House,
-		},
-		{
-			title: "Products",
-			url: "#",
-			icon: Package,
-			items: [
-				{
-					title: "Products List",
-					url: "#",
-				},
-				{
-					title: "Categories",
-					url: "#",
-				},
-				{
-					title: "Brands",
-					url: "#",
-				},
-			],
-		},
-		{
-			title: "Orders",
-			url: "#",
-			icon: ShoppingCart,
-		},
-		{
-			title: "Customers",
-			url: "#",
-			icon: Users,
-		},
-	],
-	blog: [
-		{
-			title: "Blog",
-			url: "#",
-			icon: Files,
-		},
-		{
-			title: "Categories",
-			url: "#",
-			icon: LayoutGrid,
-		},
-		{
-			title: "Authors",
-			url: "#",
-			icon: UserPen,
-		},
-		{
-			title: "Links",
-			url: "#",
-			icon: LinkIcon,
-		},
-	],
 };
+
+const shopRoutes: NavGroupProps["items"] = [
+	{
+		title: "Dashboard",
+		url: "/admin",
+		icon: House,
+	},
+	{
+		title: "Products",
+		url: "/admin/products",
+		icon: Package,
+		items: [
+			{
+				title: "Products List",
+				url: "/admin/products",
+			},
+			{
+				title: "Categories",
+				url: "/admin/products",
+			},
+			{
+				title: "Brands",
+				url: "/admin/products",
+			},
+		],
+	},
+	{
+		title: "Orders",
+		url: "/admin",
+		icon: ShoppingCart,
+	},
+	{
+		title: "Customers",
+		url: "/admin",
+		icon: Users,
+	},
+];
+const blogRoutes: NavGroupProps["items"] = [
+	{
+		title: "Blog",
+		url: "/admin",
+		icon: Files,
+	},
+	{
+		title: "Categories",
+		url: "/admin",
+		icon: LayoutGrid,
+	},
+	{
+		title: "Authors",
+		url: "/admin",
+		icon: UserPen,
+	},
+	{
+		title: "Links",
+		url: "/admin",
+		icon: LinkIcon,
+	},
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
@@ -115,8 +115,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<TeamSwitcher teams={data.teams} />
 			</SidebarHeader>
 			<SidebarContent>
-				<NavGroup items={data.shop} label="Shop" />
-				<NavGroup items={data.blog} label="Blog" />
+				<NavGroup items={shopRoutes} label="Shop" />
+				<NavGroup items={blogRoutes} label="Blog" />
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser user={data.user} />
