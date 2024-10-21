@@ -26,7 +26,7 @@ function Page() {
 					title="Products List"
 					action={
 						<Button asChild>
-							<Link to="/admin">
+							<Link to="/admin/products/create">
 								<Plus className="h-4 w-4" />
 								New product
 							</Link>

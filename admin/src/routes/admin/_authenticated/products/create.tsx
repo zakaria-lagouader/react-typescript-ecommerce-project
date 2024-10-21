@@ -1,15 +1,5 @@
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,22 +9,29 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout, DashboardLayoutProps } from "@/components/dashboard-layout";
+import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
+import { PageTitle } from "@/components/page-title";
 
 export const Route = createFileRoute("/admin/_authenticated/products/create")({
 	component: Page,
 });
+
+const OPTIONS: Option[] = [
+	{ label: "nextjs", value: "Nextjs" },
+	{ label: "Vite", value: "vite" },
+	{ label: "Nuxt", value: "nuxt" },
+	{ label: "Vue", value: "vue" },
+	{ label: "Remix", value: "remix" },
+	{ label: "Svelte", value: "svelte" },
+	{ label: "Angular", value: "angular" },
+	{ label: "Ember", value: "ember" },
+	{ label: "React", value: "react" },
+	{ label: "Gatsby", value: "gatsby" },
+	{ label: "Astro", value: "astro" },
+];
 
 const breadcrumb: DashboardLayoutProps["breadcrumb"] = [
 	{ title: "Products", url: "/admin/products" },
@@ -45,36 +42,16 @@ function Page() {
 	return (
 		<DashboardLayout breadcrumb={breadcrumb}>
 			<main className="grid flex-1 items-start gap-4 p-4 sm:px-6 md:gap-8">
-				<div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
-					<div className="flex items-center gap-4">
-						<Button variant="outline" size="icon" className="h-7 w-7">
-							<ChevronLeft className="h-4 w-4" />
-							<span className="sr-only">Back</span>
-						</Button>
-						<h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-							Pro Controller
-						</h1>
-						<Badge variant="outline" className="ml-auto sm:ml-0">
-							In stock
-						</Badge>
-						<div className="hidden items-center gap-2 md:ml-auto md:flex">
-							<Button variant="outline" size="sm">
-								Discard
-							</Button>
-							<Button size="sm">Save Product</Button>
-						</div>
-					</div>
+				<div className="mx-auto w-full max-w-screen-lg grid flex-1 auto-rows-max gap-4">
+					<PageTitle title="Create Product" backButtonUrl="/admin/products" />
 					<div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
 						<div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-							<Card x-chunk="A card with a form to edit the product details">
+							<Card>
 								<CardHeader>
 									<CardTitle>Product Details</CardTitle>
-									<CardDescription>
-										Lipsum dolor sit amet, consectetur adipiscing elit
-									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<div className="grid gap-6">
+									<div className="grid grid-cols-2 gap-6">
 										<div className="grid gap-3">
 											<Label htmlFor="name">Name</Label>
 											<Input
@@ -85,6 +62,15 @@ function Page() {
 											/>
 										</div>
 										<div className="grid gap-3">
+											<Label htmlFor="name">Slug</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
+										</div>
+										<div className="grid gap-3 col-span-2">
 											<Label htmlFor="description">
 												Description
 											</Label>
@@ -97,240 +83,106 @@ function Page() {
 									</div>
 								</CardContent>
 							</Card>
-							<Card x-chunk="A card with a form to edit the product stock and variants">
+							<Card>
 								<CardHeader>
-									<CardTitle>Stock</CardTitle>
-									<CardDescription>
-										Lipsum dolor sit amet, consectetur adipiscing elit
-									</CardDescription>
+									<CardTitle>Images</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<Table>
-										<TableHeader>
-											<TableRow>
-												<TableHead className="w-[100px]">
-													SKU
-												</TableHead>
-												<TableHead>Stock</TableHead>
-												<TableHead>Price</TableHead>
-												<TableHead className="w-[100px]">
-													Size
-												</TableHead>
-											</TableRow>
-										</TableHeader>
-										<TableBody>
-											<TableRow>
-												<TableCell className="font-semibold">
-													GGPC-001
-												</TableCell>
-												<TableCell>
-													<Label
-														htmlFor="stock-1"
-														className="sr-only"
-													>
-														Stock
-													</Label>
-													<Input
-														id="stock-1"
-														type="number"
-														defaultValue="100"
-													/>
-												</TableCell>
-												<TableCell>
-													<Label
-														htmlFor="price-1"
-														className="sr-only"
-													>
-														Price
-													</Label>
-													<Input
-														id="price-1"
-														type="number"
-														defaultValue="99.99"
-													/>
-												</TableCell>
-												<TableCell>
-													<ToggleGroup
-														type="single"
-														defaultValue="s"
-														variant="outline"
-													>
-														<ToggleGroupItem value="s">
-															S
-														</ToggleGroupItem>
-														<ToggleGroupItem value="m">
-															M
-														</ToggleGroupItem>
-														<ToggleGroupItem value="l">
-															L
-														</ToggleGroupItem>
-													</ToggleGroup>
-												</TableCell>
-											</TableRow>
-											<TableRow>
-												<TableCell className="font-semibold">
-													GGPC-002
-												</TableCell>
-												<TableCell>
-													<Label
-														htmlFor="stock-2"
-														className="sr-only"
-													>
-														Stock
-													</Label>
-													<Input
-														id="stock-2"
-														type="number"
-														defaultValue="143"
-													/>
-												</TableCell>
-												<TableCell>
-													<Label
-														htmlFor="price-2"
-														className="sr-only"
-													>
-														Price
-													</Label>
-													<Input
-														id="price-2"
-														type="number"
-														defaultValue="99.99"
-													/>
-												</TableCell>
-												<TableCell>
-													<ToggleGroup
-														type="single"
-														defaultValue="m"
-														variant="outline"
-													>
-														<ToggleGroupItem value="s">
-															S
-														</ToggleGroupItem>
-														<ToggleGroupItem value="m">
-															M
-														</ToggleGroupItem>
-														<ToggleGroupItem value="l">
-															L
-														</ToggleGroupItem>
-													</ToggleGroup>
-												</TableCell>
-											</TableRow>
-											<TableRow>
-												<TableCell className="font-semibold">
-													GGPC-003
-												</TableCell>
-												<TableCell>
-													<Label
-														htmlFor="stock-3"
-														className="sr-only"
-													>
-														Stock
-													</Label>
-													<Input
-														id="stock-3"
-														type="number"
-														defaultValue="32"
-													/>
-												</TableCell>
-												<TableCell>
-													<Label
-														htmlFor="price-3"
-														className="sr-only"
-													>
-														Stock
-													</Label>
-													<Input
-														id="price-3"
-														type="number"
-														defaultValue="99.99"
-													/>
-												</TableCell>
-												<TableCell>
-													<ToggleGroup
-														type="single"
-														defaultValue="s"
-														variant="outline"
-													>
-														<ToggleGroupItem value="s">
-															S
-														</ToggleGroupItem>
-														<ToggleGroupItem value="m">
-															M
-														</ToggleGroupItem>
-														<ToggleGroupItem value="l">
-															L
-														</ToggleGroupItem>
-													</ToggleGroup>
-												</TableCell>
-											</TableRow>
-										</TableBody>
-									</Table>
+									<div className="bg-secondary rounded-lg p-6 text-center">
+										Drag your images here
+									</div>
 								</CardContent>
-								<CardFooter className="justify-center border-t p-4">
-									<Button size="sm" variant="ghost" className="gap-1">
-										<PlusCircle className="h-3.5 w-3.5" />
-										Add Variant
-									</Button>
-								</CardFooter>
 							</Card>
-							<Card x-chunk="A card with a form to edit the product category and subcategory">
+							<Card>
 								<CardHeader>
-									<CardTitle>Product Category</CardTitle>
+									<CardTitle>Pricing</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<div className="grid gap-6 sm:grid-cols-3">
+									<div className="grid grid-cols-2 gap-6">
 										<div className="grid gap-3">
-											<Label htmlFor="category">Category</Label>
-											<Select>
-												<SelectTrigger
-													id="category"
-													aria-label="Select category"
-												>
-													<SelectValue placeholder="Select category" />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value="clothing">
-														Clothing
-													</SelectItem>
-													<SelectItem value="electronics">
-														Electronics
-													</SelectItem>
-													<SelectItem value="accessories">
-														Accessories
-													</SelectItem>
-												</SelectContent>
-											</Select>
+											<Label htmlFor="name">Price</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
 										</div>
 										<div className="grid gap-3">
-											<Label htmlFor="subcategory">
-												Subcategory (optional)
+											<Label htmlFor="name">
+												Compare at price
 											</Label>
-											<Select>
-												<SelectTrigger
-													id="subcategory"
-													aria-label="Select subcategory"
-												>
-													<SelectValue placeholder="Select subcategory" />
-												</SelectTrigger>
-												<SelectContent>
-													<SelectItem value="t-shirts">
-														T-Shirts
-													</SelectItem>
-													<SelectItem value="hoodies">
-														Hoodies
-													</SelectItem>
-													<SelectItem value="sweatshirts">
-														Sweatshirts
-													</SelectItem>
-												</SelectContent>
-											</Select>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
+										</div>
+										<div className="grid gap-3">
+											<Label htmlFor="name">Cost per item</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+							<Card>
+								<CardHeader>
+									<CardTitle>Inventory</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div className="grid grid-cols-2 gap-6">
+										<div className="grid gap-3">
+											<Label htmlFor="name">
+												SKU (Stock Keeping Unit)
+											</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
+										</div>
+										<div className="grid gap-3">
+											<Label htmlFor="name">
+												Barcode (ISBN, UPC, GTIN, etc.)
+											</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
+										</div>
+										<div className="grid gap-3">
+											<Label htmlFor="name">Quantity</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
+										</div>
+										<div className="grid gap-3">
+											<Label htmlFor="name">Security stock</Label>
+											<Input
+												id="name"
+												type="text"
+												className="w-full"
+												defaultValue="Gamer Gear Pro Controller"
+											/>
 										</div>
 									</div>
 								</CardContent>
 							</Card>
 						</div>
 						<div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-							<Card x-chunk="A card with a form to edit the product status">
+							<Card>
 								<CardHeader>
 									<CardTitle>Product Status</CardTitle>
 								</CardHeader>
@@ -361,74 +213,54 @@ function Page() {
 									</div>
 								</CardContent>
 							</Card>
-							<Card
-								className="overflow-hidden"
-								x-chunk="A card with a form to upload product images"
-							>
+							<Card>
 								<CardHeader>
-									<CardTitle>Product Images</CardTitle>
-									<CardDescription>
-										Lipsum dolor sit amet, consectetur adipiscing elit
-									</CardDescription>
+									<CardTitle>Associations</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<div className="grid gap-2">
-										<img
-											alt="Product image"
-											className="aspect-square w-full rounded-md object-cover"
-											height="300"
-											src="/placeholder.svg"
-											width="300"
-										/>
-										<div className="grid grid-cols-3 gap-2">
-											<button>
-												<img
-													alt="Product image"
-													className="aspect-square w-full rounded-md object-cover"
-													height="84"
-													src="/placeholder.svg"
-													width="84"
-												/>
-											</button>
-											<button>
-												<img
-													alt="Product image"
-													className="aspect-square w-full rounded-md object-cover"
-													height="84"
-													src="/placeholder.svg"
-													width="84"
-												/>
-											</button>
-											<button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-												<Upload className="h-4 w-4 text-muted-foreground" />
-												<span className="sr-only">Upload</span>
-											</button>
+									<div className="grid gap-6">
+										<div className="grid gap-3">
+											<Label htmlFor="status">Brand</Label>
+											<Select>
+												<SelectTrigger
+													id="status"
+													aria-label="Select status"
+												>
+													<SelectValue placeholder="Select status" />
+												</SelectTrigger>
+												<SelectContent>
+													<SelectItem value="draft">
+														Draft
+													</SelectItem>
+													<SelectItem value="published">
+														Active
+													</SelectItem>
+													<SelectItem value="archived">
+														Archived
+													</SelectItem>
+												</SelectContent>
+											</Select>
+										</div>
+										<div className="grid gap-3">
+											<Label htmlFor="status">Categories</Label>
+											<MultipleSelector
+												defaultOptions={OPTIONS}
+												placeholder="Select frameworks you like..."
+												emptyIndicator={
+													<p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+														no results found.
+													</p>
+												}
+											/>
 										</div>
 									</div>
 								</CardContent>
 							</Card>
-							<Card x-chunk="A card with a call to action to archive the product">
-								<CardHeader>
-									<CardTitle>Archive Product</CardTitle>
-									<CardDescription>
-										Lipsum dolor sit amet, consectetur adipiscing
-										elit.
-									</CardDescription>
-								</CardHeader>
-								<CardContent>
-									<div></div>
-									<Button size="sm" variant="secondary">
-										Archive Product
-									</Button>
-								</CardContent>
-							</Card>
 						</div>
 					</div>
-					<div className="flex items-center justify-center gap-2 md:hidden">
-						<Button variant="outline" size="sm">
-							Discard
-						</Button>
-						<Button size="sm">Save Product</Button>
+					<div className="flex items-center gap-2">
+						<Button variant="outline">Discard</Button>
+						<Button>Save Product</Button>
 					</div>
 				</div>
 			</main>
