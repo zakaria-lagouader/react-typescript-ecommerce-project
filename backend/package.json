@@ -4,7 +4,7 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/app.ts"
+		"dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/index.ts"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.21.1",
