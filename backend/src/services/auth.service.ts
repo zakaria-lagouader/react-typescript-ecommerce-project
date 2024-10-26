@@ -1,8 +1,8 @@
-import { CONFLICT } from "@/constants/http";
+import { CONFLICT, UNAUTHORIZED } from "@/constants/http";
 import appAssert from "@/utils/app-assert";
 import { db } from "@/utils/db";
 import { generateTokens } from "@/utils/jwt";
-import { hashPassword } from "@/utils/password";
+import { comparePassword, hashPassword } from "@/utils/password";
 
 type CreateAccountParams = {
 	email: string;
@@ -24,6 +24,35 @@ export async function createAccount(data: CreateAccountParams) {
 			password: await hashPassword(data.password),
 		},
 	});
+
+	const { accessToken, refreshToken } = generateTokens({ userId: user.id });
+
+	// save refresh token to db
+	const updatedUser = await db.user.update({
+		where: { id: user.id },
+		data: { refreshToken },
+		select: { id: true, email: true },
+	});
+
+	return { accessToken, refreshToken, user: updatedUser };
+}
+
+type LoginUserParams = {
+	email: string;
+	password: string;
+};
+
+export async function loginUser(data: LoginUserParams) {
+	const user = await db.user.findUnique({
+		where: { email: data.email },
+		select: { id: true, password: true },
+	});
+
+	appAssert(user, UNAUTHORIZED, "Invalid email or password");
+
+	const passwordMatch = await comparePassword(data.password, user.password);
+
+	appAssert(passwordMatch, CONFLICT, "Invalid email or password");
 
 	const { accessToken, refreshToken } = generateTokens({ userId: user.id });
 
