@@ -1,24 +1,32 @@
-import { User } from "@prisma/client";
+import {
+	ACCESS_TOKEN_EXPIRE,
+	ACCESS_TOKEN_SECRET,
+	REFRESH_TOKEN_EXPIRE,
+	REFRESH_TOKEN_SECRET,
+} from "@/constants/env";
 import jwt from "jsonwebtoken";
 
-export function generateAccessToken(user: User) {
-	return jwt.sign({ userId: user.id }, process.env.JWT_ACCESS_SECRET, {
-		expiresIn: "5m",
+export type JWTPayload = {
+	userId: string;
+};
+
+export function generateTokens(payload: JWTPayload) {
+	const accessToken = jwt.sign(payload, ACCESS_TOKEN_SECRET, {
+		expiresIn: ACCESS_TOKEN_EXPIRE,
 	});
+
+	const refreshToken = jwt.sign(payload, REFRESH_TOKEN_SECRET, {
+		expiresIn: REFRESH_TOKEN_EXPIRE,
+	});
+
+	return { accessToken, refreshToken };
 }
 
-export function generateRefreshToken(user: User, tokenId: string) {
-	return jwt.sign({ userId: user.id, jti: tokenId }, process.env.JWT_REFRESH_SECRET, {
-		expiresIn: "30d",
-	});
-}
-
-export function generateTokens(user: User, tokenId: string) {
-	const accessToken = generateAccessToken(user);
-	const refreshToken = generateRefreshToken(user, tokenId);
-
-	return {
-		accessToken,
-		refreshToken,
-	};
+export function verifyToken(token: string, secret: string = ACCESS_TOKEN_SECRET) {
+	try {
+		const payload = jwt.verify(token, secret) as JWTPayload;
+		return { payload };
+	} catch (error: any) {
+		return { error: error.message };
+	}
 }

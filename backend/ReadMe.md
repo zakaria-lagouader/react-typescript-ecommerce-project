@@ -9,7 +9,7 @@ yarn add express zod cors express bcrypt jsonwebtoken @prisma/client uuid cors d
 ## 2. install dev dependencies
 
 ```bash
-yarn add @types/body-parser @types/cors @types/express @types/node @types/bcrypt @types/jsonwebtoken prisma ts-node-dev typescript tsconfig-paths @types/morgan @types/cookie-parser  -D
+yarn add @types/body-parser @types/cors @types/express @types/node @types/bcrypt @types/jsonwebtoken prisma ts-node-dev typescript tsconfig-paths @types/morgan @types/cookie-parser @types/uuid  -D
 ```
 
 # 3. initialize tsconfig
