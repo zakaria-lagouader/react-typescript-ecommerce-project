@@ -1,7 +1,8 @@
+import { REFRESH_TOKEN_SECRET } from "@/constants/env";
 import { CONFLICT, UNAUTHORIZED } from "@/constants/http";
 import appAssert from "@/utils/app-assert";
 import { db } from "@/utils/db";
-import { generateTokens } from "@/utils/jwt";
+import { generateTokens, verifyToken } from "@/utils/jwt";
 import { comparePassword, hashPassword } from "@/utils/password";
 
 type CreateAccountParams = {
@@ -64,4 +65,29 @@ export async function loginUser(data: LoginUserParams) {
 	});
 
 	return { accessToken, refreshToken, user: updatedUser };
+}
+
+export async function refreshUserAccessToken(refreshToken: string) {
+	const { payload } = verifyToken(refreshToken, REFRESH_TOKEN_SECRET);
+
+	appAssert(payload, UNAUTHORIZED, "Invalid refresh token");
+
+	const user = await db.user.findUnique({
+		where: { id: payload.userId },
+		select: { id: true, refreshToken: true },
+	});
+
+	appAssert(user && user.refreshToken === refreshToken, UNAUTHORIZED, "Invalid refresh token");
+
+	const { accessToken, refreshToken: newRefreshToken } = generateTokens({ userId: user.id });
+
+	await db.user.update({
+		where: { id: user.id },
+		data: { refreshToken: newRefreshToken },
+	});
+
+	return {
+		accessToken,
+		newRefreshToken,
+	};
 }
