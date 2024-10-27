@@ -17,6 +17,7 @@ export const authenticate: RequestHandler = (req, res, next) => {
 		AppErrorCode.InvalidAccessToken
 	);
 
+	// @ts-ignore
 	req.userId = payload.userId;
 	next();
 };

@@ -1,3 +1,4 @@
+import { NODE_ENV } from "@/constants/env";
 import { fifteenMinutesFromNow, thirtyDaysFromNow } from "@/utils/date";
 import { CookieOptions, Response } from "express";
 
@@ -6,7 +7,7 @@ export const REFRESH_PATH = "/auth/refresh";
 const defaults: CookieOptions = {
 	sameSite: "strict",
 	httpOnly: true,
-	secure: true,
+	secure: NODE_ENV === "production",
 };
 
 export const AccessTokenCookieOptions = {

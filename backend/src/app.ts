@@ -19,12 +19,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static("public"));
 
 // health check
 app.get("/", (_, res) => {
-	res.status(200).json({
-		status: "healthy",
-	});
+	res.json({ message: "Server is running" });
 });
 
 // auth routes
