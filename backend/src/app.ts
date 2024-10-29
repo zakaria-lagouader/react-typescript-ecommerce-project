@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 import express from "express";
-import { PORT } from "@/constants/env";
+import { ADMIN_CLIENT_URL, PORT } from "@/constants/env";
 import cookieParser from "cookie-parser";
 import { authRoutes } from "@/routes/auth.route";
 import { errorHandler } from "@/middlewares/error-handler";
@@ -15,7 +15,12 @@ export const app = express();
 // Middlewares
 app.use(morgan("dev")); // Logger
 app.use(helmet()); // Security
-app.use(cors());
+app.use(
+	cors({
+		origin: ADMIN_CLIENT_URL,
+		credentials: true,
+	})
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
