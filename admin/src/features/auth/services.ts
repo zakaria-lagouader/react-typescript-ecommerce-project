@@ -6,5 +6,5 @@ import { api } from "@/lib/api";
 export const getUser = async () => api.get<User>("/user");
 export const login = async (data: TLoginSchema) =>
 	api.post<{ message: string }>("/auth/login", data);
+export const register = async (data: TRegisterSchema) => api.post("/auth/register", data);
 export const logout = async () => api.get("/logout");
-export const register = async (data: TRegisterSchema) => api.post("/register", data);
