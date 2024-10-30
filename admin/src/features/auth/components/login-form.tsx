@@ -18,7 +18,7 @@ interface LoginFromProps {
 	isPending?: boolean;
 }
 
-export function LoginFrom({ onSubmit, isPending }: LoginFromProps) {
+export function LoginForm({ onSubmit, isPending }: LoginFromProps) {
 	const form = useForm<TLoginSchema>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {

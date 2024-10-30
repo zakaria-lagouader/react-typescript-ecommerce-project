@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { login } from "@/features/auth/services";
-import { LoginFrom } from "@/features/auth/components/login-form";
+import { LoginForm } from "@/features/auth/components/login-form";
 import { TLoginSchema } from "@/features/auth/schemas/loginSchema";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthState } from "@/features/auth/components/auth-provider";
+import { Alert } from "@/components/alert";
 
 export const Route = createFileRoute("/admin/_guest/login")({
 	component: Page,
@@ -17,12 +18,11 @@ function Page() {
 	const navigate = useNavigate({ from: "/admin/login" });
 	const { redirectTo } = Route.useSearch();
 	const { updateUser } = useAuthState();
-	const { mutate, isPending } = useMutation({
+	const { mutate, isPending, error } = useMutation({
 		mutationFn: login,
 		onSuccess: () => {
 			updateUser();
-			if (redirectTo !== undefined) return navigate({ to: redirectTo, replace: true });
-			navigate({ to: "/admin", replace: true });
+			navigate({ to: redirectTo ?? "/admin", replace: true });
 		},
 	});
 
@@ -36,8 +36,8 @@ function Page() {
 					Enter your email below to login to your account
 				</p>
 			</div>
-
-			<LoginFrom onSubmit={onSubmit} isPending={isPending} />
+			{error && <Alert message={error.message} variant="error" />}
+			<LoginForm onSubmit={onSubmit} isPending={isPending} />
 
 			<div className="mt-4 text-center text-sm">
 				Don&apos;t have an account?{" "}
