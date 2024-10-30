@@ -5,7 +5,6 @@ import { CookieOptions, Response } from "express";
 export const REFRESH_PATH = "/auth/refresh";
 
 const defaults: CookieOptions = {
-	sameSite: "strict",
 	httpOnly: true,
 	secure: NODE_ENV === "production",
 };

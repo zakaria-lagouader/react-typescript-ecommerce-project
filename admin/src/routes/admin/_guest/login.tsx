@@ -1,19 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form";
-import { loginSchema, TLoginSchema } from "@/features/auth/schemas/loginSchema";
-import { login } from "@/features/auth/services";
 import { z } from "zod";
+import { login } from "@/features/auth/services";
+import { LoginFrom } from "@/features/auth/components/login-form";
+import { TLoginSchema } from "@/features/auth/schemas/loginSchema";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthState } from "@/features/auth/components/auth-provider";
 
 export const Route = createFileRoute("/admin/_guest/login")({
 	component: Page,
@@ -25,20 +16,18 @@ export const Route = createFileRoute("/admin/_guest/login")({
 function Page() {
 	const navigate = useNavigate({ from: "/admin/login" });
 	const { redirectTo } = Route.useSearch();
-
-	const form = useForm<TLoginSchema>({
-		resolver: zodResolver(loginSchema),
-		defaultValues: {
-			email: "",
-			password: "",
+	const { updateUser } = useAuthState();
+	const { mutate, isPending } = useMutation({
+		mutationFn: login,
+		onSuccess: () => {
+			updateUser();
+			if (redirectTo !== undefined) return navigate({ to: redirectTo, replace: true });
+			navigate({ to: "/admin", replace: true });
 		},
 	});
 
-	const onSubmit = (values: TLoginSchema) => {
-		if (!login(values)) return;
-		if (redirectTo !== undefined) return navigate({ to: redirectTo });
-		navigate({ to: "/admin" });
-	};
+	const onSubmit = (values: TLoginSchema) => mutate(values);
+
 	return (
 		<div className="mx-auto grid w-[350px] gap-6">
 			<div className="grid gap-2 text-center">
@@ -47,51 +36,9 @@ function Page() {
 					Enter your email below to login to your account
 				</p>
 			</div>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem className="grid gap-2">
-								<FormLabel>Email</FormLabel>
-								<FormControl>
-									<Input
-										type="email"
-										placeholder="mail@mail.xom"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem className="grid gap-2">
-								<div className="flex items-center">
-									<FormLabel>Password</FormLabel>
-									<Link
-										href="/forgot-password"
-										className="ml-auto inline-block text-sm underline"
-									>
-										Forgot your password?
-									</Link>
-								</div>
-								<FormControl>
-									<Input type="password" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<Button type="submit" className="w-full">
-						Login
-					</Button>
-				</form>
-			</Form>
+
+			<LoginFrom onSubmit={onSubmit} isPending={isPending} />
+
 			<div className="mt-4 text-center text-sm">
 				Don&apos;t have an account?{" "}
 				<Link to="/admin/register" search={{ redirectTo }} className="underline">

@@ -1,3 +1,4 @@
+import { PageLoadingIndicator } from "@/components/page-loading";
 import { getUser } from "@/features/auth/services";
 import { User } from "@/features/auth/types";
 import { useQuery } from "@tanstack/react-query";
@@ -7,13 +8,13 @@ function useAuth() {
 	const { data: user, ...rest } = useQuery({
 		queryKey: ["auth"],
 		queryFn: getUser,
-		staleTime: Infinity,
 	});
-	return { user, ...rest };
+	return { user: user?.data, ...rest };
 }
 
 export type AuthContext = {
-	user: User | null;
+	user: User | undefined;
+	updateUser: () => void;
 };
 
 const authContext = createContext({} as AuthContext);
@@ -23,10 +24,17 @@ type AuthProviderProps = {
 };
 
 export function AuthProvider({ children }: AuthProviderProps) {
-	const { user } = useAuth();
-	return <authContext.Provider value={{ user }}>{children}</authContext.Provider>;
+	const { user, isLoading, refetch } = useAuth();
+	if (isLoading) {
+		return <PageLoadingIndicator />;
+	}
+	return (
+		<authContext.Provider value={{ user, updateUser: refetch }}>
+			{children}
+		</authContext.Provider>
+	);
 }
 
-export function useAuthContext() {
+export function useAuthState() {
 	return useContext(authContext);
 }

@@ -1,4 +1,4 @@
-import { AuthProvider, useAuthContext } from "@/features/auth/components/auth-provider";
+import { AuthProvider, useAuthState } from "@/features/auth/components/auth-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProps, RouterProvider } from "@tanstack/react-router";
 
@@ -7,12 +7,16 @@ interface ProvidersProps {
 	router: RouterProps["router"];
 }
 
+function RouterProviderWithAuthContext({ router }: { router: RouterProps["router"] }) {
+	const authContext = useAuthState();
+	return <RouterProvider router={router} context={{ authContext }} />;
+}
+
 export function GlobalProviders({ router, queryClient }: ProvidersProps) {
-	const authContext = useAuthContext();
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>
-				<RouterProvider router={router} context={{ authContext }} />
+				<RouterProviderWithAuthContext router={router} />
 			</AuthProvider>
 		</QueryClientProvider>
 	);
