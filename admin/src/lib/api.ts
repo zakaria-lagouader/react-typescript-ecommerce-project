@@ -10,7 +10,7 @@ export const api = axios.create(options);
 api.interceptors.response.use(
 	(response) => response,
 	async (error) => {
-		const { config, response } = error;
+		const { response } = error;
 		const { status, data } = response || {};
 
 		// try to refresh the access token behind the scenes

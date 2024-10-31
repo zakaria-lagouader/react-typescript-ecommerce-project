@@ -14,7 +14,7 @@ export const app = express();
 
 // Middlewares
 app.use(morgan("dev")); // Logger
-// app.use(helmet()); // Security
+app.use(helmet()); // Security
 app.use(
 	cors({
 		origin: ADMIN_CLIENT_URL,
