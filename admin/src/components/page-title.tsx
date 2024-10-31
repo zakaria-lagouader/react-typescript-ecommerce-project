@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ValidRoutes } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
@@ -8,11 +9,12 @@ interface PageTitleProps {
 	title: string;
 	action?: React.ReactNode;
 	backButtonUrl?: ValidRoutes;
+	className?: string;
 }
 
-export function PageTitle({ title, action, backButtonUrl }: PageTitleProps) {
+export function PageTitle({ title, action, backButtonUrl, className }: PageTitleProps) {
 	return (
-		<div className="flex items-center gap-2">
+		<div className={cn("flex items-center gap-2", className)}>
 			{backButtonUrl && (
 				<Button variant="outline" size="icon" className="h-7 w-7" asChild>
 					<Link to={backButtonUrl}>

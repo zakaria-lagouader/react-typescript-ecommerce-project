@@ -22,8 +22,8 @@ export function LoginForm({ onSubmit, isPending }: LoginFromProps) {
 	const form = useForm<TLoginSchema>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
-			email: "",
-			password: "",
+			email: "mail@mail.com",
+			password: "12345678",
 		},
 	});
 
@@ -39,7 +39,7 @@ export function LoginForm({ onSubmit, isPending }: LoginFromProps) {
 							<FormControl>
 								<Input
 									type="email"
-									placeholder="mail@mail.xom"
+									placeholder="mail@mail.com"
 									{...field}
 								/>
 							</FormControl>
