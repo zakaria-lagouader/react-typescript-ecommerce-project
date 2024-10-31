@@ -18,19 +18,27 @@ import { useForm } from "react-hook-form";
 interface CreateCategoryFormProps {
 	onSubmit: (values: TCategorySchema) => void;
 	isPending?: boolean;
+	editMode?: boolean;
+	defaultValues?: TCategorySchema;
+	onDelete?: () => void;
 }
 
-const defaultValues: TCategorySchema = {
-	name: "",
-	slug: "",
-	description: "",
-};
-
-export function CreateCategoryForm({ onSubmit, isPending }: CreateCategoryFormProps) {
+export function CreateCategoryForm({
+	onSubmit,
+	isPending,
+	editMode = false,
+	defaultValues,
+	onDelete,
+}: CreateCategoryFormProps) {
 	const form = useForm<TCategorySchema>({
 		resolver: zodResolver(categorySchema),
-		defaultValues,
+		defaultValues: defaultValues ?? {
+			name: "",
+			slug: "",
+			description: "",
+		},
 	});
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="grid auto-rows-max gap-4">
@@ -86,7 +94,12 @@ export function CreateCategoryForm({ onSubmit, isPending }: CreateCategoryFormPr
 					<Button variant="outline" asChild>
 						<Link to="/admin/products/categories">Discard</Link>
 					</Button>
-					<Button isLoading={isPending}>Save Category</Button>
+					<Button isLoading={isPending}>
+						{editMode ? "Update" : "Save"} Category
+					</Button>
+					<Button isLoading={isPending} variant="destructive" onClick={onDelete}>
+						Delete
+					</Button>
 				</div>
 			</form>
 		</Form>

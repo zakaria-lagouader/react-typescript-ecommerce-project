@@ -23,6 +23,7 @@ import { Route as AdminAuthenticatedProductsIndexImport } from './routes/admin/_
 import { Route as AdminAuthenticatedProductsCreateImport } from './routes/admin/_authenticated/products/create'
 import { Route as AdminAuthenticatedProductsCategoriesIndexImport } from './routes/admin/_authenticated/products/categories/index'
 import { Route as AdminAuthenticatedProductsCategoriesCreateImport } from './routes/admin/_authenticated/products/categories/create'
+import { Route as AdminAuthenticatedProductsCategoriesIdEditImport } from './routes/admin/_authenticated/products/categories/$id.edit'
 
 // Create Virtual Routes
 
@@ -95,6 +96,13 @@ const AdminAuthenticatedProductsCategoriesCreateRoute =
   AdminAuthenticatedProductsCategoriesCreateImport.update({
     id: '/products/categories/create',
     path: '/products/categories/create',
+    getParentRoute: () => AdminAuthenticatedRoute,
+  } as any)
+
+const AdminAuthenticatedProductsCategoriesIdEditRoute =
+  AdminAuthenticatedProductsCategoriesIdEditImport.update({
+    id: '/products/categories/$id/edit',
+    path: '/products/categories/$id/edit',
     getParentRoute: () => AdminAuthenticatedRoute,
   } as any)
 
@@ -179,6 +187,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthenticatedProductsCategoriesIndexImport
       parentRoute: typeof AdminAuthenticatedImport
     }
+    '/admin/_authenticated/products/categories/$id/edit': {
+      id: '/admin/_authenticated/products/categories/$id/edit'
+      path: '/products/categories/$id/edit'
+      fullPath: '/admin/products/categories/$id/edit'
+      preLoaderRoute: typeof AdminAuthenticatedProductsCategoriesIdEditImport
+      parentRoute: typeof AdminAuthenticatedImport
+    }
   }
 }
 
@@ -190,6 +205,7 @@ interface AdminAuthenticatedRouteChildren {
   AdminAuthenticatedProductsIndexRoute: typeof AdminAuthenticatedProductsIndexRoute
   AdminAuthenticatedProductsCategoriesCreateRoute: typeof AdminAuthenticatedProductsCategoriesCreateRoute
   AdminAuthenticatedProductsCategoriesIndexRoute: typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  AdminAuthenticatedProductsCategoriesIdEditRoute: typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
 const AdminAuthenticatedRouteChildren: AdminAuthenticatedRouteChildren = {
@@ -200,6 +216,8 @@ const AdminAuthenticatedRouteChildren: AdminAuthenticatedRouteChildren = {
     AdminAuthenticatedProductsCategoriesCreateRoute,
   AdminAuthenticatedProductsCategoriesIndexRoute:
     AdminAuthenticatedProductsCategoriesIndexRoute,
+  AdminAuthenticatedProductsCategoriesIdEditRoute:
+    AdminAuthenticatedProductsCategoriesIdEditRoute,
 }
 
 const AdminAuthenticatedRouteWithChildren =
@@ -241,6 +259,7 @@ export interface FileRoutesByFullPath {
   '/admin/products': typeof AdminAuthenticatedProductsIndexRoute
   '/admin/products/categories/create': typeof AdminAuthenticatedProductsCategoriesCreateRoute
   '/admin/products/categories': typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  '/admin/products/categories/$id/edit': typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
 export interface FileRoutesByTo {
@@ -252,6 +271,7 @@ export interface FileRoutesByTo {
   '/admin/products': typeof AdminAuthenticatedProductsIndexRoute
   '/admin/products/categories/create': typeof AdminAuthenticatedProductsCategoriesCreateRoute
   '/admin/products/categories': typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  '/admin/products/categories/$id/edit': typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
 export interface FileRoutesById {
@@ -267,6 +287,7 @@ export interface FileRoutesById {
   '/admin/_authenticated/products/': typeof AdminAuthenticatedProductsIndexRoute
   '/admin/_authenticated/products/categories/create': typeof AdminAuthenticatedProductsCategoriesCreateRoute
   '/admin/_authenticated/products/categories/': typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  '/admin/_authenticated/products/categories/$id/edit': typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
 export interface FileRouteTypes {
@@ -281,6 +302,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/products/categories/create'
     | '/admin/products/categories'
+    | '/admin/products/categories/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -291,6 +313,7 @@ export interface FileRouteTypes {
     | '/admin/products'
     | '/admin/products/categories/create'
     | '/admin/products/categories'
+    | '/admin/products/categories/$id/edit'
   id:
     | '__root__'
     | '/'
@@ -304,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/_authenticated/products/'
     | '/admin/_authenticated/products/categories/create'
     | '/admin/_authenticated/products/categories/'
+    | '/admin/_authenticated/products/categories/$id/edit'
   fileRoutesById: FileRoutesById
 }
 
@@ -351,7 +375,8 @@ export const routeTree = rootRoute
         "/admin/_authenticated/products/create",
         "/admin/_authenticated/products/",
         "/admin/_authenticated/products/categories/create",
-        "/admin/_authenticated/products/categories/"
+        "/admin/_authenticated/products/categories/",
+        "/admin/_authenticated/products/categories/$id/edit"
       ]
     },
     "/admin/_guest": {
@@ -388,6 +413,10 @@ export const routeTree = rootRoute
     },
     "/admin/_authenticated/products/categories/": {
       "filePath": "admin/_authenticated/products/categories/index.tsx",
+      "parent": "/admin/_authenticated"
+    },
+    "/admin/_authenticated/products/categories/$id/edit": {
+      "filePath": "admin/_authenticated/products/categories/$id.edit.tsx",
       "parent": "/admin/_authenticated"
     }
   }

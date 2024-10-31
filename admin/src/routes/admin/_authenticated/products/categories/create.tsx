@@ -18,9 +18,9 @@ const breadcrumb: DashboardLayoutProps["breadcrumb"] = [
 	{ title: "Create Category" },
 ];
 
-function Page() {
+function useCatgoryMutation() {
 	const navigate = useNavigate({ from: "/admin/login" });
-	const { mutate, isPending, error } = useMutation({
+	return useMutation({
 		mutationFn: createCategory,
 		onSuccess: () => {
 			toast.success("Category created successfully", {
@@ -31,7 +31,12 @@ function Page() {
 			});
 		},
 	});
-	const onSubmit = (values: TCategorySchema) => mutate(values);
+}
+
+function Page() {
+	const categoryMutation = useCatgoryMutation();
+
+	const onSubmit = (values: TCategorySchema) => categoryMutation.mutate(values);
 
 	return (
 		<DashboardLayout breadcrumb={breadcrumb}>
@@ -42,8 +47,13 @@ function Page() {
 						backButtonUrl="/admin/products/categories"
 						className="mb-8"
 					/>
-					{error && <Alert message={error.message} variant="error" />}
-					<CreateCategoryForm onSubmit={onSubmit} isPending={isPending} />
+					{categoryMutation.isError && (
+						<Alert message={categoryMutation.error.message} variant="error" />
+					)}
+					<CreateCategoryForm
+						onSubmit={onSubmit}
+						isPending={categoryMutation.isPending}
+					/>
 				</div>
 			</main>
 		</DashboardLayout>

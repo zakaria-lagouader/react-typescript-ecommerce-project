@@ -19,8 +19,13 @@ const breadcrumb: DashboardLayoutProps["breadcrumb"] = [
 	{ title: "Categories List" },
 ];
 
+function useCatgoriesData() {
+	const { data: categories, ...rest } = useSuspenseQuery(categoriesQueryOptions);
+	return { categories, ...rest };
+}
+
 function Page() {
-	const { data: categories, isLoading } = useSuspenseQuery(categoriesQueryOptions);
+	const { categories, isLoading } = useCatgoriesData();
 
 	return (
 		<DashboardLayout breadcrumb={breadcrumb}>
@@ -36,7 +41,7 @@ function Page() {
 						</Button>
 					}
 				/>
-				{!isLoading && <CategoriesTable categories={categories.data.categories} />}
+				{!isLoading && <CategoriesTable categories={categories} />}
 			</main>
 		</DashboardLayout>
 	);

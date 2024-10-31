@@ -13,7 +13,7 @@ import catchErrors from "@/utils/catch-errors";
 export const getCategoriesHandler = catchErrors(async (req, res) => {
 	const categories = await getAllCategories();
 
-	return res.status(OK).json({ categories });
+	return res.status(OK).json(categories);
 });
 
 export const getCategoryHandler = catchErrors(async (req, res) => {
@@ -22,7 +22,7 @@ export const getCategoryHandler = catchErrors(async (req, res) => {
 
 	appAssert(category, NOT_FOUND, "Category not found");
 
-	return res.status(OK).json({ category });
+	return res.status(OK).json(category);
 });
 
 export const createCategoryHandler = catchErrors(async (req, res) => {
@@ -30,7 +30,7 @@ export const createCategoryHandler = catchErrors(async (req, res) => {
 
 	const category = await createCategory(request);
 
-	return res.status(CREATED).json({ category });
+	return res.status(CREATED).json(category);
 });
 
 export const updateCategoryHandler = catchErrors(async (req, res) => {
@@ -41,7 +41,7 @@ export const updateCategoryHandler = catchErrors(async (req, res) => {
 
 	appAssert(updatedCategory, NOT_FOUND, "Category not found");
 
-	return res.status(OK).json({ category: updatedCategory });
+	return res.status(OK).json(updatedCategory);
 });
 
 export const deleteCategoryHandler = catchErrors(async (req, res) => {

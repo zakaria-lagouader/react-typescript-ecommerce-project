@@ -9,7 +9,7 @@ function useAuth() {
 		queryKey: ["auth"],
 		queryFn: getUser,
 	});
-	return { user: user?.data, ...rest };
+	return { user, ...rest };
 }
 
 export type AuthContext = {
