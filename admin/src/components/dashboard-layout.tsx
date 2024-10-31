@@ -13,6 +13,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { Link } from "@tanstack/react-router";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ValidRoutes } from "@/lib/types";
+import { Toaster } from "sonner";
 
 export interface DashboardLayoutProps {
 	children?: React.ReactNode;
@@ -66,6 +67,7 @@ export function DashboardLayout({ children, breadcrumb }: DashboardLayoutProps) 
 					</div>
 				</header>
 				{children}
+				<Toaster expand richColors />
 			</SidebarInset>
 		</SidebarProvider>
 	);

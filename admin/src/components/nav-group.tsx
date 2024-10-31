@@ -21,7 +21,7 @@ export interface NavGroupProps {
 		icon?: LucideIcon;
 		items?: {
 			title: string;
-			url: string;
+			url: ValidRoutes;
 		}[];
 	}[];
 	label: string;

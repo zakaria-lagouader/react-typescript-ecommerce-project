@@ -66,7 +66,7 @@ const shopRoutes: NavGroupProps["items"] = [
 			},
 			{
 				title: "Categories",
-				url: "/admin/products",
+				url: "/admin/products/categories",
 			},
 			{
 				title: "Brands",
