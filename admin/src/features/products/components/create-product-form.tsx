@@ -44,6 +44,7 @@ const OPTIONS: Option[] = [
 
 interface CreateProductFormProps {
 	onSubmit: (values: TCreateProductSchema) => void;
+	isPending?: boolean;
 }
 
 const defaultValues: TCreateProductSchema = {
@@ -61,13 +62,11 @@ const defaultValues: TCreateProductSchema = {
 	categories: [],
 };
 
-export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
+export function CreateProductForm({ onSubmit, isPending = false }: CreateProductFormProps) {
 	const form = useForm<TCreateProductSchema>({
 		resolver: zodResolver(createProductSchema),
 		defaultValues,
 	});
-
-	const isUploading = false;
 
 	return (
 		<Form {...form}>
@@ -142,7 +141,7 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
 														onValueChange={field.onChange}
 														maxFileCount={4}
 														maxSize={4 * 1024 * 1024}
-														disabled={isUploading}
+														disabled={isPending}
 													/>
 												</FormControl>
 												<FormMessage />
@@ -392,7 +391,7 @@ export function CreateProductForm({ onSubmit }: CreateProductFormProps) {
 					<Button variant="outline" asChild>
 						<Link to="/admin/products">Discard</Link>
 					</Button>
-					<Button>Save Product</Button>
+					<Button isLoading={isPending}>Save Product</Button>
 				</div>
 			</form>
 		</Form>
