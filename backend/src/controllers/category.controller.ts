@@ -1,5 +1,5 @@
 import { CREATED, NOT_FOUND, OK } from "@/constants/http";
-import { categorySchema } from "@/schemas/category.schema";
+import { categoryBulkDeleteSchema, categorySchema } from "@/schemas/category.schema";
 import {
 	bulkDeleteCategories,
 	createCategory,
@@ -55,7 +55,7 @@ export const deleteCategoryHandler = catchErrors(async (req, res) => {
 });
 
 export const bulkDeleteCategoriesHandler = catchErrors(async (req, res) => {
-	const { ids } = req.body;
+	const { ids } = categoryBulkDeleteSchema.parse(req.body);
 
 	const deletedCategories = await bulkDeleteCategories(ids);
 

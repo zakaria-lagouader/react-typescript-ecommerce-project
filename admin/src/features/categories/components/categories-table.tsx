@@ -4,16 +4,16 @@ import { columns } from "@/features/categories/components/categories-table-colum
 
 interface CategoriesTableProps {
 	categories: Category[];
-	onDeleteBulk?: (data: Category[]) => void;
+	onBulkDelete?: (data: Category[]) => void;
 }
 
-export function CategoriesTable({ categories, onDeleteBulk }: CategoriesTableProps) {
+export function CategoriesTable({ categories, onBulkDelete }: CategoriesTableProps) {
 	return (
 		<DataTable
 			data={categories}
 			columns={columns}
 			filterBy="name"
-			onDeleteBulk={onDeleteBulk}
+			onBulkDelete={onBulkDelete}
 		/>
 	);
 }

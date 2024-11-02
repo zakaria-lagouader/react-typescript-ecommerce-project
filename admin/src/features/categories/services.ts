@@ -13,6 +13,10 @@ export const deleteCategory = async (id: string) =>
 	api.delete(`/categories/${id}`) as Promise<{
 		message: string;
 	}>;
+export const bulkDeleteCategories = async (ids: string[]) =>
+	api.post("/categories/bulk-delete", { ids }) as Promise<{
+		message: string;
+	}>;
 
 export const categoriesQueryOptions = queryOptions({
 	queryKey: ["categories"],

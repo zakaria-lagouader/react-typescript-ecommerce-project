@@ -16,4 +16,4 @@ categoryRoutes.get("/:id", getCategoryHandler);
 categoryRoutes.post("/", createCategoryHandler);
 categoryRoutes.put("/:id", updateCategoryHandler);
 categoryRoutes.delete("/:id", deleteCategoryHandler);
-categoryRoutes.delete("/bulk-delete", bulkDeleteCategoriesHandler);
+categoryRoutes.post("/bulk-delete", bulkDeleteCategoriesHandler);

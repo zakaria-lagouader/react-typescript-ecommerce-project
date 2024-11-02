@@ -26,14 +26,14 @@ interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	filterBy: string;
-	onDeleteBulk?: (data: TData[]) => void;
+	onBulkDelete?: (data: TData[]) => void;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
 	filterBy,
-	onDeleteBulk,
+	onBulkDelete,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<DataTableFilterBar table={table} filterBy={filterBy} onDeleteBulk={onDeleteBulk} />
+			<DataTableFilterBar table={table} filterBy={filterBy} onBulkDelete={onBulkDelete} />
 			<div className="rounded-md border">
 				<Table>
 					<TableHeader>

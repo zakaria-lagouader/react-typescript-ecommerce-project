@@ -7,18 +7,18 @@ import { Trash } from "lucide-react";
 interface DataTableFilterBarProps<TData> {
 	table: Table<TData>;
 	filterBy: string;
-	onDeleteBulk?: (data: TData[]) => void;
+	onBulkDelete?: (data: TData[]) => void;
 }
 
 export function DataTableFilterBar<TData>({
 	table,
 	filterBy,
-	onDeleteBulk,
+	onBulkDelete,
 }: DataTableFilterBarProps<TData>) {
 	const selectedRows = table.getFilteredSelectedRowModel().rows;
-	const handleDeleteBulk = () => {
-		if (onDeleteBulk) {
-			onDeleteBulk(selectedRows.map((row) => row.original));
+	const handleBulkDelete = () => {
+		if (onBulkDelete) {
+			onBulkDelete(selectedRows.map((row) => row.original));
 		}
 	};
 	return (
@@ -37,7 +37,7 @@ export function DataTableFilterBar<TData>({
 						variant="destructive"
 						size="sm"
 						className="h-8"
-						onClick={handleDeleteBulk}
+						onClick={handleBulkDelete}
 					>
 						<Trash className="mr-2 h-4 w-4" />
 						Delete Bulk

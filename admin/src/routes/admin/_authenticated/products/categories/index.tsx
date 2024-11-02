@@ -4,10 +4,11 @@ import { PageTitle } from "@/components/page-title";
 import { Button } from "@/components/ui/button";
 import { CategoriesTable } from "@/features/categories/components/categories-table";
 import { Category } from "@/features/categories/components/types";
-import { categoriesQueryOptions } from "@/features/categories/services";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { bulkDeleteCategories, categoriesQueryOptions } from "@/features/categories/services";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/_authenticated/products/categories/")({
 	loader: ({ context: { queryClient } }) => {
@@ -21,17 +22,28 @@ const breadcrumb: DashboardLayoutProps["breadcrumb"] = [
 	{ title: "Categories List" },
 ];
 
-function useCatgoriesData() {
+function useCategoriesData() {
 	const { data: categories, ...rest } = useSuspenseQuery(categoriesQueryOptions);
 	return { categories, ...rest };
 }
 
-function Page() {
-	const { categories, isLoading } = useCatgoriesData();
-	const { confirm } = useAlertDialog();
+function useCategoryBulkDeleteMutation() {
+	return useMutation({
+		mutationFn: (categoryIds: string[]) => bulkDeleteCategories(categoryIds),
+		onSuccess: () => {
+			toast.success("Categories deleted successfully", {
+				duration: 1000,
+			});
+		},
+	});
+}
 
-	const handleDeleteBulk = async (data: Category[]) => {
-		const categoryIds = data.map((category) => category.id);
+function useHandleBulkDelete(refetchCategories: () => void) {
+	const { confirm } = useAlertDialog();
+	const bulkDeleteMutation = useCategoryBulkDeleteMutation();
+
+	const handleBulkDelete = async (categories: Category[]) => {
+		const categoryIds = categories.map((category) => category.id);
 		const confirmed = await confirm({
 			title: "Delete categories",
 			description: `Are you sure you want to delete ${categoryIds.length} categories?`,
@@ -40,8 +52,19 @@ function Page() {
 		});
 
 		if (!confirmed) return;
-		console.log("Deleting categories", categoryIds);
+
+		bulkDeleteMutation.mutate(categoryIds, {
+			onSuccess: refetchCategories,
+		});
 	};
+
+	return handleBulkDelete;
+}
+
+function Page() {
+	const { categories, isLoading, refetch: refetchCategories } = useCategoriesData();
+
+	const handleBulkDelete = useHandleBulkDelete(refetchCategories);
 
 	return (
 		<DashboardLayout breadcrumb={breadcrumb}>
@@ -58,7 +81,7 @@ function Page() {
 					}
 				/>
 				{!isLoading && (
-					<CategoriesTable categories={categories} onDeleteBulk={handleDeleteBulk} />
+					<CategoriesTable categories={categories} onBulkDelete={handleBulkDelete} />
 				)}
 			</main>
 		</DashboardLayout>
