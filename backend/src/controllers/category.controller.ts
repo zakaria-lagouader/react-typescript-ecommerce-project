@@ -1,6 +1,7 @@
 import { CREATED, NOT_FOUND, OK } from "@/constants/http";
 import { categorySchema } from "@/schemas/category.schema";
 import {
+	bulkDeleteCategories,
 	createCategory,
 	deleteCategoryById,
 	getAllCategories,
@@ -51,4 +52,14 @@ export const deleteCategoryHandler = catchErrors(async (req, res) => {
 	appAssert(deletedCategory, NOT_FOUND, "Category not found");
 
 	return res.status(OK).json({ message: "Category deleted" });
+});
+
+export const bulkDeleteCategoriesHandler = catchErrors(async (req, res) => {
+	const { ids } = req.body;
+
+	const deletedCategories = await bulkDeleteCategories(ids);
+
+	appAssert(deletedCategories.count > 0, NOT_FOUND, "Categories not found");
+
+	return res.status(OK).json({ message: "Categories deleted" });
 });

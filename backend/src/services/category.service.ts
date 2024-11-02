@@ -36,3 +36,10 @@ export async function deleteCategoryById(id: string) {
 	});
 	return category;
 }
+
+export async function bulkDeleteCategories(ids: string[]) {
+	const categories = await db.category.deleteMany({
+		where: { id: { in: ids } },
+	});
+	return categories;
+}
