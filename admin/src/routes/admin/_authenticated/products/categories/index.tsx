@@ -1,7 +1,9 @@
+import { useAlertDialog } from "@/components/alert-dialog-provider";
 import { DashboardLayout, DashboardLayoutProps } from "@/components/dashboard-layout";
 import { PageTitle } from "@/components/page-title";
 import { Button } from "@/components/ui/button";
 import { CategoriesTable } from "@/features/categories/components/categories-table";
+import { Category } from "@/features/categories/components/types";
 import { categoriesQueryOptions } from "@/features/categories/services";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -26,6 +28,20 @@ function useCatgoriesData() {
 
 function Page() {
 	const { categories, isLoading } = useCatgoriesData();
+	const { confirm } = useAlertDialog();
+
+	const handleDeleteBulk = async (data: Category[]) => {
+		const categoryIds = data.map((category) => category.id);
+		const confirmed = await confirm({
+			title: "Delete categories",
+			description: `Are you sure you want to delete ${categoryIds.length} categories?`,
+			actionName: "Delete",
+			actionVariant: "destructive",
+		});
+
+		if (!confirmed) return;
+		console.log("Deleting categories", categoryIds);
+	};
 
 	return (
 		<DashboardLayout breadcrumb={breadcrumb}>
@@ -41,7 +57,9 @@ function Page() {
 						</Button>
 					}
 				/>
-				{!isLoading && <CategoriesTable categories={categories} />}
+				{!isLoading && (
+					<CategoriesTable categories={categories} onDeleteBulk={handleDeleteBulk} />
+				)}
 			</main>
 		</DashboardLayout>
 	);
