@@ -11,7 +11,7 @@ import {
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { Link } from "@tanstack/react-router";
+import { Link, useMatchRoute } from "@tanstack/react-router";
 import { ValidRoutes } from "@/lib/types";
 
 export interface NavGroupProps {
@@ -28,6 +28,7 @@ export interface NavGroupProps {
 }
 
 export function NavGroup({ items, label }: NavGroupProps) {
+	const matchRoute = useMatchRoute();
 	return (
 		<SidebarGroup>
 			<SidebarGroupLabel>{label}</SidebarGroupLabel>
@@ -35,7 +36,15 @@ export function NavGroup({ items, label }: NavGroupProps) {
 				{items.map((item) =>
 					item.items === undefined ? (
 						<SidebarMenuItem key={item.title}>
-							<SidebarMenuButton tooltip={item.title} asChild>
+							<SidebarMenuButton
+								tooltip={item.title}
+								isActive={
+									matchRoute({
+										to: item.url,
+									}) !== false
+								}
+								asChild
+							>
 								<Link to={item.url}>
 									{item.icon && <item.icon />}
 									<span>{item.title}</span>
@@ -43,7 +52,18 @@ export function NavGroup({ items, label }: NavGroupProps) {
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					) : (
-						<Collapsible key={item.title} asChild className="group/collapsible">
+						<Collapsible
+							key={item.title}
+							asChild
+							className="group/collapsible"
+							defaultOpen={item.items.some(
+								(subItem) =>
+									matchRoute({
+										to: subItem.url,
+										fuzzy: true,
+									}) !== false
+							)}
+						>
 							<SidebarMenuItem>
 								<CollapsibleTrigger asChild>
 									<SidebarMenuButton tooltip={item.title}>
@@ -56,7 +76,14 @@ export function NavGroup({ items, label }: NavGroupProps) {
 									<SidebarMenuSub>
 										{item.items?.map((subItem) => (
 											<SidebarMenuSubItem key={subItem.title}>
-												<SidebarMenuSubButton asChild>
+												<SidebarMenuSubButton
+													isActive={
+														matchRoute({
+															to: subItem.url,
+														}) !== false
+													}
+													asChild
+												>
 													<Link to={subItem.url}>
 														<span>{subItem.title}</span>
 													</Link>

@@ -7,12 +7,12 @@ export const REFRESH_PATH = "/auth/refresh";
 const defaults: CookieOptions = {
 	httpOnly: true,
 	secure: NODE_ENV === "production",
-	sameSite: NODE_ENV === "production" ? "none" : "strict",
+	sameSite: "strict",
 };
 
 export const AccessTokenCookieOptions = {
 	...defaults,
-	expires: fifteenMinutesFromNow(),
+	expires: thirtyDaysFromNow(), //TODO: change to 15 minutes
 };
 
 export const RefreshTokenCookieOptions = {
