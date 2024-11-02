@@ -22,11 +22,14 @@ function useCatgoryMutation() {
 	const navigate = useNavigate({ from: "/admin/login" });
 	return useMutation({
 		mutationFn: createCategory,
-		onSuccess: () => {
+		onSuccess: (category) => {
 			toast.success("Category created successfully", {
 				duration: 1500,
 				onAutoClose: () => {
-					navigate({ to: "/admin/products/categories" });
+					navigate({
+						to: "/admin/products/categories/$id/edit",
+						params: { id: category.id },
+					});
 				},
 			});
 		},

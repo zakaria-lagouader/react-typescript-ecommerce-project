@@ -92,14 +92,21 @@ export function CreateCategoryForm({
 				</Card>
 				<div className="flex items-center gap-2">
 					<Button variant="outline" asChild>
-						<Link to="/admin/products/categories">Discard</Link>
+						<Link to="/admin/products/categories">Cancel</Link>
 					</Button>
 					<Button isLoading={isPending}>
 						{editMode ? "Update" : "Save"} Category
 					</Button>
-					<Button isLoading={isPending} variant="destructive" onClick={onDelete}>
-						Delete
-					</Button>
+					{editMode && (
+						<Button
+							isLoading={isPending}
+							variant="destructive"
+							onClick={onDelete}
+							type="button"
+						>
+							Delete
+						</Button>
+					)}
 				</div>
 			</form>
 		</Form>
