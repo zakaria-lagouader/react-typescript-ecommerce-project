@@ -49,12 +49,7 @@ function useCategoryDeleteMutation(id: string) {
 	return useMutation({
 		mutationFn: () => deleteCategory(id),
 		onSuccess: () => {
-			toast.success("Category deleted successfully", {
-				duration: 1000,
-				onAutoClose: () => {
-					navigate({ to: "/admin/products/categories" });
-				},
-			});
+			navigate({ to: "/admin/products/categories" });
 		},
 	});
 }

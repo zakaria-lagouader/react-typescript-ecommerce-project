@@ -1,8 +1,8 @@
+import { AlertDialogProvider } from "@/components/alert-dialog-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthContext } from "@/features/auth/components/auth-provider";
 import { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-// import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 interface RouteContext {
 	queryClient: QueryClient;
@@ -12,8 +12,9 @@ interface RouteContext {
 export const Route = createRootRouteWithContext<RouteContext>()({
 	component: () => (
 		<ThemeProvider>
-			<Outlet />
-			{/* <TanStackRouterDevtools /> */}
+			<AlertDialogProvider>
+				<Outlet />
+			</AlertDialogProvider>
 		</ThemeProvider>
 	),
 });
