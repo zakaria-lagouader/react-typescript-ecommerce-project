@@ -10,6 +10,7 @@ import { errorHandler } from "@/middlewares/error-handler";
 import { authenticate } from "@/middlewares/authenticate";
 import { userRoutes } from "@/routes/user.route";
 import { categoryRoutes } from "@/routes/category.route";
+import { brandRoutes } from "@/routes/brand.route";
 
 export const app = express();
 
@@ -38,6 +39,7 @@ app.use("/auth", authRoutes);
 // protected routes
 app.use("/user", authenticate, userRoutes);
 app.use("/categories", authenticate, categoryRoutes);
+app.use("/brands", authenticate, brandRoutes);
 
 // error handler
 app.use(errorHandler);
