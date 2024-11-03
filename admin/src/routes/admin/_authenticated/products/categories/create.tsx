@@ -19,7 +19,7 @@ const breadcrumb: DashboardLayoutProps["breadcrumb"] = [
 ];
 
 function useCatgoryMutation() {
-	const navigate = useNavigate({ from: "/admin/login" });
+	const navigate = useNavigate({ from: "/admin/products/categories/create" });
 	return useMutation({
 		mutationFn: createCategory,
 		onSuccess: (category) => {

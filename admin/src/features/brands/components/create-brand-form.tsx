@@ -10,31 +10,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { categorySchema, TCategorySchema } from "@/features/categories/schemas";
+import { brandSchema, TBrandSchema } from "@/features/brands/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
-interface CreateCategoryFormProps {
-	onSubmit: (values: TCategorySchema) => void;
+interface CreateBrandFormProps {
+	onSubmit: (values: TBrandSchema) => void;
 	isPending?: boolean;
 	editMode?: boolean;
-	defaultValues?: TCategorySchema;
+	defaultValues?: TBrandSchema;
 	onDelete?: () => void;
 }
 
-export function CreateCategoryForm({
+export function CreateBrandForm({
 	onSubmit,
 	isPending,
 	editMode = false,
 	defaultValues,
 	onDelete,
-}: CreateCategoryFormProps) {
-	const form = useForm<TCategorySchema>({
-		resolver: zodResolver(categorySchema),
+}: CreateBrandFormProps) {
+	const form = useForm<TBrandSchema>({
+		resolver: zodResolver(brandSchema),
 		defaultValues: defaultValues ?? {
 			name: "",
 			slug: "",
+			website: "",
 			description: "",
 		},
 	});
@@ -44,7 +45,7 @@ export function CreateCategoryForm({
 			<form onSubmit={form.handleSubmit(onSubmit)} className="grid auto-rows-max gap-4">
 				<Card>
 					<CardHeader>
-						<CardTitle>Category Details</CardTitle>
+						<CardTitle>Brand Details</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<div className="grid grid-cols-2 gap-6">
@@ -76,6 +77,19 @@ export function CreateCategoryForm({
 							/>
 							<FormField
 								control={form.control}
+								name="website"
+								render={({ field }) => (
+									<FormItem className="grid gap-2 col-span-2">
+										<FormLabel>Website</FormLabel>
+										<FormControl>
+											<Input type="url" {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
 								name="description"
 								render={({ field }) => (
 									<FormItem className="grid gap-3 col-span-2">
@@ -92,11 +106,9 @@ export function CreateCategoryForm({
 				</Card>
 				<div className="flex items-center gap-2">
 					<Button variant="outline" asChild>
-						<Link to="/admin/products/categories">Cancel</Link>
+						<Link to="/admin/products/brands">Cancel</Link>
 					</Button>
-					<Button isLoading={isPending}>
-						{editMode ? "Update" : "Save"} Category
-					</Button>
+					<Button isLoading={isPending}>{editMode ? "Update" : "Save"} Brand</Button>
 					{editMode && (
 						<Button
 							isLoading={isPending}

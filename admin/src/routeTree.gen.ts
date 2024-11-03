@@ -22,8 +22,11 @@ import { Route as AdminGuestLoginImport } from './routes/admin/_guest/login'
 import { Route as AdminAuthenticatedProductsIndexImport } from './routes/admin/_authenticated/products/index'
 import { Route as AdminAuthenticatedProductsCreateImport } from './routes/admin/_authenticated/products/create'
 import { Route as AdminAuthenticatedProductsCategoriesIndexImport } from './routes/admin/_authenticated/products/categories/index'
+import { Route as AdminAuthenticatedProductsBrandsIndexImport } from './routes/admin/_authenticated/products/brands/index'
 import { Route as AdminAuthenticatedProductsCategoriesCreateImport } from './routes/admin/_authenticated/products/categories/create'
+import { Route as AdminAuthenticatedProductsBrandsCreateImport } from './routes/admin/_authenticated/products/brands/create'
 import { Route as AdminAuthenticatedProductsCategoriesIdEditImport } from './routes/admin/_authenticated/products/categories/$id.edit'
+import { Route as AdminAuthenticatedProductsBrandsIdEditImport } from './routes/admin/_authenticated/products/brands/$id.edit'
 
 // Create Virtual Routes
 
@@ -92,6 +95,13 @@ const AdminAuthenticatedProductsCategoriesIndexRoute =
     getParentRoute: () => AdminAuthenticatedRoute,
   } as any)
 
+const AdminAuthenticatedProductsBrandsIndexRoute =
+  AdminAuthenticatedProductsBrandsIndexImport.update({
+    id: '/products/brands/',
+    path: '/products/brands/',
+    getParentRoute: () => AdminAuthenticatedRoute,
+  } as any)
+
 const AdminAuthenticatedProductsCategoriesCreateRoute =
   AdminAuthenticatedProductsCategoriesCreateImport.update({
     id: '/products/categories/create',
@@ -99,10 +109,24 @@ const AdminAuthenticatedProductsCategoriesCreateRoute =
     getParentRoute: () => AdminAuthenticatedRoute,
   } as any)
 
+const AdminAuthenticatedProductsBrandsCreateRoute =
+  AdminAuthenticatedProductsBrandsCreateImport.update({
+    id: '/products/brands/create',
+    path: '/products/brands/create',
+    getParentRoute: () => AdminAuthenticatedRoute,
+  } as any)
+
 const AdminAuthenticatedProductsCategoriesIdEditRoute =
   AdminAuthenticatedProductsCategoriesIdEditImport.update({
     id: '/products/categories/$id/edit',
     path: '/products/categories/$id/edit',
+    getParentRoute: () => AdminAuthenticatedRoute,
+  } as any)
+
+const AdminAuthenticatedProductsBrandsIdEditRoute =
+  AdminAuthenticatedProductsBrandsIdEditImport.update({
+    id: '/products/brands/$id/edit',
+    path: '/products/brands/$id/edit',
     getParentRoute: () => AdminAuthenticatedRoute,
   } as any)
 
@@ -173,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthenticatedProductsIndexImport
       parentRoute: typeof AdminAuthenticatedImport
     }
+    '/admin/_authenticated/products/brands/create': {
+      id: '/admin/_authenticated/products/brands/create'
+      path: '/products/brands/create'
+      fullPath: '/admin/products/brands/create'
+      preLoaderRoute: typeof AdminAuthenticatedProductsBrandsCreateImport
+      parentRoute: typeof AdminAuthenticatedImport
+    }
     '/admin/_authenticated/products/categories/create': {
       id: '/admin/_authenticated/products/categories/create'
       path: '/products/categories/create'
@@ -180,11 +211,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthenticatedProductsCategoriesCreateImport
       parentRoute: typeof AdminAuthenticatedImport
     }
+    '/admin/_authenticated/products/brands/': {
+      id: '/admin/_authenticated/products/brands/'
+      path: '/products/brands'
+      fullPath: '/admin/products/brands'
+      preLoaderRoute: typeof AdminAuthenticatedProductsBrandsIndexImport
+      parentRoute: typeof AdminAuthenticatedImport
+    }
     '/admin/_authenticated/products/categories/': {
       id: '/admin/_authenticated/products/categories/'
       path: '/products/categories'
       fullPath: '/admin/products/categories'
       preLoaderRoute: typeof AdminAuthenticatedProductsCategoriesIndexImport
+      parentRoute: typeof AdminAuthenticatedImport
+    }
+    '/admin/_authenticated/products/brands/$id/edit': {
+      id: '/admin/_authenticated/products/brands/$id/edit'
+      path: '/products/brands/$id/edit'
+      fullPath: '/admin/products/brands/$id/edit'
+      preLoaderRoute: typeof AdminAuthenticatedProductsBrandsIdEditImport
       parentRoute: typeof AdminAuthenticatedImport
     }
     '/admin/_authenticated/products/categories/$id/edit': {
@@ -203,8 +248,11 @@ interface AdminAuthenticatedRouteChildren {
   AdminAuthenticatedIndexRoute: typeof AdminAuthenticatedIndexRoute
   AdminAuthenticatedProductsCreateRoute: typeof AdminAuthenticatedProductsCreateRoute
   AdminAuthenticatedProductsIndexRoute: typeof AdminAuthenticatedProductsIndexRoute
+  AdminAuthenticatedProductsBrandsCreateRoute: typeof AdminAuthenticatedProductsBrandsCreateRoute
   AdminAuthenticatedProductsCategoriesCreateRoute: typeof AdminAuthenticatedProductsCategoriesCreateRoute
+  AdminAuthenticatedProductsBrandsIndexRoute: typeof AdminAuthenticatedProductsBrandsIndexRoute
   AdminAuthenticatedProductsCategoriesIndexRoute: typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  AdminAuthenticatedProductsBrandsIdEditRoute: typeof AdminAuthenticatedProductsBrandsIdEditRoute
   AdminAuthenticatedProductsCategoriesIdEditRoute: typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
@@ -212,10 +260,16 @@ const AdminAuthenticatedRouteChildren: AdminAuthenticatedRouteChildren = {
   AdminAuthenticatedIndexRoute: AdminAuthenticatedIndexRoute,
   AdminAuthenticatedProductsCreateRoute: AdminAuthenticatedProductsCreateRoute,
   AdminAuthenticatedProductsIndexRoute: AdminAuthenticatedProductsIndexRoute,
+  AdminAuthenticatedProductsBrandsCreateRoute:
+    AdminAuthenticatedProductsBrandsCreateRoute,
   AdminAuthenticatedProductsCategoriesCreateRoute:
     AdminAuthenticatedProductsCategoriesCreateRoute,
+  AdminAuthenticatedProductsBrandsIndexRoute:
+    AdminAuthenticatedProductsBrandsIndexRoute,
   AdminAuthenticatedProductsCategoriesIndexRoute:
     AdminAuthenticatedProductsCategoriesIndexRoute,
+  AdminAuthenticatedProductsBrandsIdEditRoute:
+    AdminAuthenticatedProductsBrandsIdEditRoute,
   AdminAuthenticatedProductsCategoriesIdEditRoute:
     AdminAuthenticatedProductsCategoriesIdEditRoute,
 }
@@ -257,8 +311,11 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminAuthenticatedIndexRoute
   '/admin/products/create': typeof AdminAuthenticatedProductsCreateRoute
   '/admin/products': typeof AdminAuthenticatedProductsIndexRoute
+  '/admin/products/brands/create': typeof AdminAuthenticatedProductsBrandsCreateRoute
   '/admin/products/categories/create': typeof AdminAuthenticatedProductsCategoriesCreateRoute
+  '/admin/products/brands': typeof AdminAuthenticatedProductsBrandsIndexRoute
   '/admin/products/categories': typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  '/admin/products/brands/$id/edit': typeof AdminAuthenticatedProductsBrandsIdEditRoute
   '/admin/products/categories/$id/edit': typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
@@ -269,8 +326,11 @@ export interface FileRoutesByTo {
   '/admin/register': typeof AdminGuestRegisterRoute
   '/admin/products/create': typeof AdminAuthenticatedProductsCreateRoute
   '/admin/products': typeof AdminAuthenticatedProductsIndexRoute
+  '/admin/products/brands/create': typeof AdminAuthenticatedProductsBrandsCreateRoute
   '/admin/products/categories/create': typeof AdminAuthenticatedProductsCategoriesCreateRoute
+  '/admin/products/brands': typeof AdminAuthenticatedProductsBrandsIndexRoute
   '/admin/products/categories': typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  '/admin/products/brands/$id/edit': typeof AdminAuthenticatedProductsBrandsIdEditRoute
   '/admin/products/categories/$id/edit': typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
@@ -285,8 +345,11 @@ export interface FileRoutesById {
   '/admin/_authenticated/': typeof AdminAuthenticatedIndexRoute
   '/admin/_authenticated/products/create': typeof AdminAuthenticatedProductsCreateRoute
   '/admin/_authenticated/products/': typeof AdminAuthenticatedProductsIndexRoute
+  '/admin/_authenticated/products/brands/create': typeof AdminAuthenticatedProductsBrandsCreateRoute
   '/admin/_authenticated/products/categories/create': typeof AdminAuthenticatedProductsCategoriesCreateRoute
+  '/admin/_authenticated/products/brands/': typeof AdminAuthenticatedProductsBrandsIndexRoute
   '/admin/_authenticated/products/categories/': typeof AdminAuthenticatedProductsCategoriesIndexRoute
+  '/admin/_authenticated/products/brands/$id/edit': typeof AdminAuthenticatedProductsBrandsIdEditRoute
   '/admin/_authenticated/products/categories/$id/edit': typeof AdminAuthenticatedProductsCategoriesIdEditRoute
 }
 
@@ -300,8 +363,11 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/products/create'
     | '/admin/products'
+    | '/admin/products/brands/create'
     | '/admin/products/categories/create'
+    | '/admin/products/brands'
     | '/admin/products/categories'
+    | '/admin/products/brands/$id/edit'
     | '/admin/products/categories/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -311,8 +377,11 @@ export interface FileRouteTypes {
     | '/admin/register'
     | '/admin/products/create'
     | '/admin/products'
+    | '/admin/products/brands/create'
     | '/admin/products/categories/create'
+    | '/admin/products/brands'
     | '/admin/products/categories'
+    | '/admin/products/brands/$id/edit'
     | '/admin/products/categories/$id/edit'
   id:
     | '__root__'
@@ -325,8 +394,11 @@ export interface FileRouteTypes {
     | '/admin/_authenticated/'
     | '/admin/_authenticated/products/create'
     | '/admin/_authenticated/products/'
+    | '/admin/_authenticated/products/brands/create'
     | '/admin/_authenticated/products/categories/create'
+    | '/admin/_authenticated/products/brands/'
     | '/admin/_authenticated/products/categories/'
+    | '/admin/_authenticated/products/brands/$id/edit'
     | '/admin/_authenticated/products/categories/$id/edit'
   fileRoutesById: FileRoutesById
 }
@@ -374,8 +446,11 @@ export const routeTree = rootRoute
         "/admin/_authenticated/",
         "/admin/_authenticated/products/create",
         "/admin/_authenticated/products/",
+        "/admin/_authenticated/products/brands/create",
         "/admin/_authenticated/products/categories/create",
+        "/admin/_authenticated/products/brands/",
         "/admin/_authenticated/products/categories/",
+        "/admin/_authenticated/products/brands/$id/edit",
         "/admin/_authenticated/products/categories/$id/edit"
       ]
     },
@@ -407,12 +482,24 @@ export const routeTree = rootRoute
       "filePath": "admin/_authenticated/products/index.tsx",
       "parent": "/admin/_authenticated"
     },
+    "/admin/_authenticated/products/brands/create": {
+      "filePath": "admin/_authenticated/products/brands/create.tsx",
+      "parent": "/admin/_authenticated"
+    },
     "/admin/_authenticated/products/categories/create": {
       "filePath": "admin/_authenticated/products/categories/create.tsx",
       "parent": "/admin/_authenticated"
     },
+    "/admin/_authenticated/products/brands/": {
+      "filePath": "admin/_authenticated/products/brands/index.tsx",
+      "parent": "/admin/_authenticated"
+    },
     "/admin/_authenticated/products/categories/": {
       "filePath": "admin/_authenticated/products/categories/index.tsx",
+      "parent": "/admin/_authenticated"
+    },
+    "/admin/_authenticated/products/brands/$id/edit": {
+      "filePath": "admin/_authenticated/products/brands/$id.edit.tsx",
       "parent": "/admin/_authenticated"
     },
     "/admin/_authenticated/products/categories/$id/edit": {

@@ -1,5 +1,5 @@
-import { Category } from "@/features/categories/components/types";
 import { TCategorySchema } from "@/features/categories/schemas";
+import { Category } from "@/features/categories/types";
 import { api } from "@/lib/api";
 import { queryOptions } from "@tanstack/react-query";
 

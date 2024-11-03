@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { getSelectColumn } from "@/components/data-table/data-table-select-columns";
-import { Category } from "@/features/categories/types";
+import { Brand } from "@/features/brands/types";
 import { Link } from "@tanstack/react-router";
 
-export const columns: ColumnDef<Category>[] = [
-	getSelectColumn<Category>(),
+export const columns: ColumnDef<Brand>[] = [
+	getSelectColumn<Brand>(),
 	{
 		accessorKey: "name",
 		header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
@@ -23,9 +23,13 @@ export const columns: ColumnDef<Category>[] = [
 		header: ({ column }) => <DataTableColumnHeader column={column} title="Slug" />,
 	},
 	{
+		accessorKey: "website",
+		header: ({ column }) => <DataTableColumnHeader column={column} title="Website" />,
+	},
+	{
 		id: "actions",
 		cell: ({ row }) => {
-			const category = row.original;
+			const brand = row.original;
 
 			return (
 				<DropdownMenu>
@@ -38,8 +42,8 @@ export const columns: ColumnDef<Category>[] = [
 					<DropdownMenuContent align="end">
 						<DropdownMenuItem asChild>
 							<Link
-								to="/admin/products/categories/$id/edit"
-								params={{ id: category.id }}
+								to="/admin/products/brands/$id/edit"
+								params={{ id: brand.id }}
 							>
 								<Pencil className="h-4 w-4" />
 								Edit
