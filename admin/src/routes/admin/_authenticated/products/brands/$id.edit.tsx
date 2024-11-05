@@ -38,7 +38,7 @@ function useBrandUpdateMutation(id: string) {
 }
 
 function useBrandDeleteMutation(id: string) {
-	const navigate = useNavigate({ from: "/admin/login" });
+	const navigate = useNavigate({ from: "/admin/products/brands/$id/edit" });
 	return useMutation({
 		mutationFn: () => deleteBrand(id),
 		onSuccess: () => {

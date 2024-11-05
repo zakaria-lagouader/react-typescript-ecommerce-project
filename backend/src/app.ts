@@ -11,6 +11,7 @@ import { authenticate } from "@/middlewares/authenticate";
 import { userRoutes } from "@/routes/user.route";
 import { categoryRoutes } from "@/routes/category.route";
 import { brandRoutes } from "@/routes/brand.route";
+import { productRoutes } from "@/routes/product.route";
 
 export const app = express();
 
@@ -40,6 +41,7 @@ app.use("/auth", authRoutes);
 app.use("/user", authenticate, userRoutes);
 app.use("/categories", authenticate, categoryRoutes);
 app.use("/brands", authenticate, brandRoutes);
+app.use("/products", authenticate, productRoutes);
 
 // error handler
 app.use(errorHandler);

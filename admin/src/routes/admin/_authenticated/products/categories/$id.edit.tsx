@@ -42,7 +42,7 @@ function useCategoryUpdateMutation(id: string) {
 }
 
 function useCategoryDeleteMutation(id: string) {
-	const navigate = useNavigate({ from: "/admin/login" });
+	const navigate = useNavigate({ from: "/admin/products/categories/$id/edit" });
 	return useMutation({
 		mutationFn: () => deleteCategory(id),
 		onSuccess: () => {
